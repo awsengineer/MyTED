@@ -33,7 +33,9 @@ PrivateIP = subprocess.getoutput("curl -s http://169.254.169.254/latest/meta-dat
 AZ = subprocess.getoutput("curl -s http://169.254.169.254/latest/meta-data/placement/availability-zone/").replace(" ","")
 
 print ("<br />")
-print ("<br />")
+
+homer=center(img(src="https://github.com/ezzobad/ted/raw/master/woohoo.jpg",align="middle",style="width:250;height:200;"))
+print (homer)
 print ("<br />")
 print ('<html>')
 print ('<div align="center"><font size="6">'+"Details of this HTTP Server (behind ELB):"+'</font>')
