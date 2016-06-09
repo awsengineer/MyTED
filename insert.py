@@ -13,7 +13,8 @@ lname  = form.getvalue('lname')
 address  = form.getvalue('address')
 
 db = pymysql.connect(host='52.201.229.228',
-                             user='root',
+                             user='salehim',
+                             password='abcABC123',
                              db='mehdidb',
                              autocommit=True,
                              charset='utf8mb4',
