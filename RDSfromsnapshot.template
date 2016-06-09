@@ -1,0 +1,152 @@
+{
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Parameters": {
+    "VPCID": {
+      "Description": "VPC ID:",
+      "Type": "AWS::EC2::VPC::Id"
+    },
+    "PrivateSubnetA": {
+      "Description": "PrivateSubnetA:",
+      "Type": "AWS::EC2::Subnet::Id"
+    },
+    "PrivateSubnetB": {
+      "Description": "PrivateSubnetB:",
+      "Type": "AWS::EC2::Subnet::Id"
+    },
+    "MultiAZ": {
+      "Description": "should the databae be multi AZ enabled?",
+      "Type": "String",
+      "Default": "false",
+      "AllowedValues": [
+        "true",
+        "false"
+      ]
+    },
+    "MasterUserName": {
+      "Description": "What is the master DB user name?",
+      "Type": "String",
+      "Default": "salehim",
+      "MinLength": "6",
+      "MaxLength": "16",
+      "AllowedPattern": "[a-zA-Z0-9]*",
+      "ConstraintDescription": "Must contain only alphanumeric characters."
+    },
+    "MasterUserPassword": {
+      "Description": "What is the master DB user password?",
+      "NoEcho": "true",
+      "Type": "String",
+      "MinLength": "8",
+      "MaxLength": "20",
+      "AllowedPattern": "[a-zA-Z0-9]*",
+      "ConstraintDescription": "Must contain only alphanumeric characters."
+    },
+    "DBSnapshotName": {
+      "Description": "The DB snapshot to create the new database from.",
+      "Type": "String"
+    }
+  },
+  "Resources": {
+    "RDSSubnetGroup1": {
+      "Type": "AWS::RDS::DBSubnetGroup",
+      "Properties": {
+        "DBSubnetGroupDescription": "Subnet group for MySQL multi-AZ DB",
+        "SubnetIds": [
+          {
+            "Ref": "PrivateSubnetA"
+          },
+          {
+            "Ref": "PrivateSubnetB"
+          }
+        ],
+        "Tags": [
+          {
+            "Key": "Createdby",
+            "Value": "Mehdi"
+          },
+          {
+            "Key": "Name",
+            "Value": "RDSSubnetGroup1"
+          }
+        ]
+      },
+      "Metadata": {
+        "AWS::CloudFormation::Designer": {
+          "id": "fd3a1ba6-f306-4850-bdec-4e16a9324ecf"
+        }
+      }
+    },
+    "MySQLRDSSecurityGroup": {
+      "Type": "AWS::EC2::SecurityGroup",
+      "Properties": {
+        "GroupDescription": "MySQL Security Group",
+        "VpcId": {
+          "Ref": "VPCID"
+        },
+        "SecurityGroupIngress": [
+          {
+            "IpProtocol": "tcp",
+            "FromPort": "3306",
+            "ToPort": "3306",
+            "CidrIp": "0.0.0.0/0"
+          }
+        ],
+        "Tags": [
+          {
+            "Key": "Createdby",
+            "Value": "Mehdi"
+          },
+          {
+            "Key": "Name",
+            "Value": "MySQLRDSSecurityGroup"
+          }
+        ]
+      },
+      "Metadata": {
+        "AWS::CloudFormation::Designer": {
+          "id": "84d1a69a-cc34-48b9-af74-32b8684394ab"
+        }
+      }
+    },
+    "RDSInstance1": {
+      "Type": "AWS::RDS::DBInstance",
+      "Properties": {
+        "AllocatedStorage": "5",
+        "DBInstanceClass": "db.t2.micro",
+        "Engine": "MySQL",
+        "EngineVersion": "5.7.11",
+        "DBSnapshotIdentifier": {
+          "Ref": "DBSnapshotName"
+        },
+        "MasterUsername": {
+          "Ref": "MasterUserName"
+        },
+        "MasterUserPassword": {
+          "Ref": "MasterUserPassword"
+        },
+        "VPCSecurityGroups": [
+          {
+            "Ref": "MySQLRDSSecurityGroup"
+          }
+        ],
+        "DBSubnetGroupName": {
+          "Ref": "RDSSubnetGroup1"
+        },
+        "MultiAZ": {
+          "Ref": "MultiAZ"
+        },
+        "BackupRetentionPeriod": "0"
+      },
+      "DependsOn": "RDSSubnetGroup1"
+    }
+  },
+  "Outputs": {
+    "RDSEndpoint": {
+      "Value": {
+        "Fn::GetAtt": [
+          "RDSInstance1",
+          "Endpoint.Address"
+        ]
+      }
+    }
+  }
+}
