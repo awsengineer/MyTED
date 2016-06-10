@@ -12,7 +12,7 @@ fname = form.getvalue('fname')
 lname  = form.getvalue('lname')
 address  = form.getvalue('address')
 
-db = pymysql.connect(host='52.201.229.228',
+db = pymysql.connect(host='RDSEndpoint',
                              user='salehim',
                              password='abcABC123',
                              db='mehdidb',
