@@ -35,7 +35,7 @@ AZ = subprocess.getoutput("curl -s http://169.254.169.254/latest/meta-data/place
 
 print ("<br />")
 
-homer=center(img(src="https://raw.githubusercontent.com/awsengineer/MyTED/master/woohoo.jpg",align="middle",style="width:250;height:200;"))
+homer=center(img(src="https://raw.githubusercontent.com/awsengineer/CFN/master/Nested/v1.3Show_RDS_data_in_Apache/woohoo.jpg",align="middle",style="width:250;height:200;"))
 print (homer)
 print ("<br />")
 print ('<html>')
