@@ -9,7 +9,7 @@ import pymysql.cursors
 # Connect to the database
 db = pymysql.connect(host='RDSEndpoint',
                      user='salehim',
-                     password='abcABC123',w
+                     password='abcABC123',
                      db='mehdidb',
                      charset='utf8mb4',
                      cursorclass=pymysql.cursors.DictCursor)
