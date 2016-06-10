@@ -9,7 +9,7 @@ import pymysql.cursors
 # Connect to the database
 db = pymysql.connect(host='RDSEndpoint',
                      user='salehim',
-                     password='abcABC123',
+                     password='abcABC123',w
                      db='mehdidb',
                      charset='utf8mb4',
                      cursorclass=pymysql.cursors.DictCursor)
@@ -37,7 +37,6 @@ print ("<br />")
 
 homer=center(img(src="https://raw.githubusercontent.com/awsengineer/CFN/master/Nested/v1.3Show_RDS_data_in_Apache/woohoo.jpg",align="middle",style="width:250;height:200;"))
 print (homer)
-print ("<br />")
 print ('<html>')
 print ('<div align="center"><font size="6">'+"Details of this HTTP Server (behind ELB):"+'</font>')
 print ('<head> <style> table, th, td { border: 1px solid brown; } </style> </head>')
